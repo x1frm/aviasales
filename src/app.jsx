@@ -12,16 +12,45 @@ const logoMap = { TK: 'tk.png'};
 class App extends React.Component {
     constructor(props) {
         super(props);
+        this.state = {
+            currency: 'rub',
+            transfers: [true, true, false, false]
+        }
 
+        this.filterTransfers = this.filterTransfers.bind(this);
+    }
+
+    changeCur(e) {
+        this.setState({
+            currency: e.target.value
+        });
+    }
+
+    filterTransfers(e) {
+        switch(e.target.value) {
+            case '0':
+            case '1':
+            case '2':
+            case '3':
+                this.state.transfers[e.target.value] = !this.state.transfers[e.target.value];
+                this.setState({transfers: this.state.transfers});
+                break;
+            case 'all':
+
+        }
     }
 
     render() {
+        const filteredTickets = tickets.tickets
+            .filter(el => this.state.transfers[el.stops])
+            .map(el => <Ticket ticket={el} logo={logoMap[el.carrier]} />);
+
         return(
             <div>
                 <img id='logo' src='logo.png'></img>
-                <Filters />
+                <Filters cur={this.changeCur} transfers={this.state.transfers} transChange={this.filterTransfers} />
                 <div id='tickets-container'>
-                    <Ticket logo={logoMap[tickets.tickets[0].carrier]} ticket={tickets.tickets[0]} />
+                    {filteredTickets}
                 </div>
             </div>
         );
@@ -30,13 +59,7 @@ class App extends React.Component {
 }
 
 
-class Filters extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {}
-    }
-
-    render() {
+const Filters = (props) => {
         return (
             <div>
                 <div id='filters'>
@@ -65,28 +88,28 @@ class Filters extends React.Component {
                             </div>
                         </div>
                         <div>
-                            <input name='transform' value='none' type='checkbox' onChange={changeCur} checked={chI} />
+                            <input name='transform' value='0' type='checkbox' onChange={props.transChange} checked={props.transfers[0]} />
                             <div className='checkbox-layer'>
                                 <div className='checkbox'><img src='Rectangle 32.svg' /></div>
                                 Без пересадок
                             </div>
                         </div>
                         <div>
-                            <input name='transform' value='1' type='checkbox' onChange={changeCur} checked={chI} />
+                            <input name='transform' value='1' type='checkbox' onChange={props.transChange} checked={props.transfers[1]} />
                             <div className='checkbox-layer'>
                                 <div className='checkbox'><img src='Rectangle 32.svg' /></div>
                                 1 пересадка
                             </div>
                         </div>
                         <div>
-                            <input name='transform' value='2' type='checkbox' onChange={changeCur} checked={chI} />
+                            <input name='transform' value='2' type='checkbox' onChange={props.transChange} checked={props.transfers[2]} />
                             <div className='checkbox-layer'>
                                 <div className='checkbox'><img src='Rectangle 32.svg' /></div>
                                 2 пересадки
                             </div>
                         </div>
                         <div>
-                            <input name='transform' value='3' type='checkbox' onChange={changeCur} checked={chI} />
+                            <input name='transform' value='3' type='checkbox' onChange={props.transChange} checked={props.transfers[3]} />
                             <div className='checkbox-layer'>
                                 <div className='checkbox'><img src='Rectangle 32.svg' /></div>
                                 3 пересадки
@@ -96,7 +119,7 @@ class Filters extends React.Component {
                 </div>
             </div>
         );
-    }
+    
 }
 
 const Ticket = (props) => {
@@ -109,10 +132,18 @@ const Ticket = (props) => {
         return date.slice(4).replace(/\./g, '') + ', ' + date[0].toUpperCase() + date[1];
     }
 
-    const dateDep = normalizeDate(props.ticket.departure_date);
-    const dateArr = normalizeDate(props.ticket.arrival_date);
+    const dateDep = normalizeDate(t.departure_date);
+    const dateArr = normalizeDate(t.arrival_date);
 
-    const stopsMap = [, '1 пересадка', '2 пересадки', '3 пересадки'];
+    const normalizeTime = (time) => {
+        time = new Date('01.01.2019 ' + time);
+        return time.toLocaleTimeString('en-GB', {hour: '2-digit', minute: '2-digit'});
+    }
+
+    const timeDep = normalizeTime(t.departure_time);
+    const timeArr = normalizeTime(t.arrival_time);
+
+    const stopsMap = [, '1 ПЕРЕСАДКА', '2 ПЕРЕСАДКИ', '3 ПЕРЕСАДКИ'];
 
     return (
         <div className='ticket'>
@@ -121,8 +152,8 @@ const Ticket = (props) => {
                 <div><p>Купить<br />за {price}<span>₽</span></p></div>
             </div>
             <div className='route'>
-                <div className='time dep'>{t.departure_time}</div>
-                <div className='time arr'>{t.arrival_time}</div>
+                <div className='time dep'>{timeDep}</div>
+                <div className='time arr'>{timeArr}</div>
                 <div className='place dep'>
                     <p>{t.origin + ', ' + t.origin_name}</p>
                     <p>{dateDep}</p></div>
