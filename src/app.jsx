@@ -10,6 +10,26 @@ var chI = 'stub';
 class App extends React.Component {
     constructor(props) {
         super(props);
+
+    }
+
+    render() {
+        return(
+            <div>
+                <Filters />
+                <div id='tickets-container'>
+                    <Ticket />
+                </div>
+            </div>
+        );
+    }
+
+}
+
+
+class Filters extends React.Component {
+    constructor(props) {
+        super(props);
         this.state = {}
     }
 
@@ -74,6 +94,18 @@ class App extends React.Component {
             </div>
         );
     }
+}
+
+const Ticket = (props) => {
+    return (
+        <div className='ticket'>
+            <div className='price'>
+                <div><img src='Logo.svg' /></div>
+                <div></div>
+            </div>
+            <div className='route'></div>
+        </div>
+    );
 }
 
 ReactDOM.render(<App />, document.querySelector('#root'));

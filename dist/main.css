@@ -4,6 +4,8 @@ html, body {
     margin: 0;
 }
 
+/* FILTERS */
+
 #filters {
     width: 232px;
     height: 331px;
@@ -147,7 +149,7 @@ input:checked + .radio {
     display: initial;
 }
 
-#transfer input:hover + .checkbox-layer::after {
+#transfer > div:nth-child(n+2) > input:hover + .checkbox-layer::after {
     content: 'ТОЛЬКО';
     font-size: 11px;
     line-height: 36px;
@@ -159,4 +161,48 @@ input:checked + .radio {
 
 #transfer input:hover + .checkbox-layer {
     background-color: #f1fcff;
+}
+
+/* TICKETS */
+
+#tickets-container {
+    position: absolute;
+    left: 355px;
+    top: 161px;
+    width: 566px;
+}
+
+.ticket {
+    width: 566px;
+    height: 161px;
+    border-radius: 5px;
+    box-shadow: 0px 1px 4px rgba(91,137,164,0.25);
+    background-color: #ffffff;
+    display: flex;
+}
+
+.price {
+    width: 200px;
+    height: 100%;
+    border-right: 1px solid #eceff1
+}
+
+.price > div:first-child {
+    display: flex;
+    justify-content: center;
+    height: 50%;
+}
+
+.price > div:nth-child(2) {
+    width: 160px;
+    height: 56px;
+    border-radius: 5px;
+    box-shadow: 0px 1px 0px #d64d08;
+    background-color: #ff6d00;
+    margin: auto;
+}
+
+.route {
+    width: 365px;
+    height: 100%;
 }
