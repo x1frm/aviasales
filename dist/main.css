@@ -1,6 +1,4 @@
 /*change to % and em */
-/* center or their line-height? */
-
 html, body {
     background-color: #f3f7fa;
     margin: 0;
@@ -119,10 +117,7 @@ input:checked + .radio {
     font-size: 13px;
     color: #4a4a4a;
     font-weight: 400;
-}
-
-#transfer .checkbox-layer > * {
-    transform: translate(0, 50%);
+    line-height: 36px;
 }
 
 .checkbox {
@@ -136,18 +131,11 @@ input:checked + .radio {
     margin-right: 10px;
     display: flex;
     justify-content: center;
+    transform: translate(0, 50%);
 }
 
 .checkbox > img {
     display: none;
-}
-
-#transfer .checkbox-layer > .checkbox + span {
-    float: left;
-}
-
-#transfer .checkbox-layer > .hover-text {
-    float: right;
 }
 
 #transfer input:hover + .checkbox-layer > .checkbox {
@@ -159,16 +147,16 @@ input:checked + .radio {
     display: initial;
 }
 
-#transfer input:hover + .checkbox-layer > .hover-text::after {
+#transfer input:hover + .checkbox-layer::after {
     content: 'ТОЛЬКО';
-    text-align: right;
     font-size: 11px;
+    line-height: 36px;
     letter-spacing: 0px;
     color: #2196f3;
     font-weight: 600;
+    float: right;
 }
 
 #transfer input:hover + .checkbox-layer {
     background-color: #f1fcff;
-
 }

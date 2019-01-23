@@ -38,40 +38,35 @@ class App extends React.Component {
                             <input name='transform' value='all' type='checkbox' onChange={changeCur} checked={chI} />
                             <div className='checkbox-layer'>
                                 <div className='checkbox'><img src='Rectangle 32.svg' /></div>
-                                <span>Все</span>
-                                <span className='hover-text'></span>
+                                Все
                             </div>
                         </div>
                         <div>
                             <input name='transform' value='none' type='checkbox' onChange={changeCur} checked={chI} />
                             <div className='checkbox-layer'>
                                 <div className='checkbox'><img src='Rectangle 32.svg' /></div>
-                                <span>Без пересадок</span>
-                                <span className='hover-text'></span>
+                                Без пересадок
                             </div>
                         </div>
                         <div>
                             <input name='transform' value='1' type='checkbox' onChange={changeCur} checked={chI} />
                             <div className='checkbox-layer'>
                                 <div className='checkbox'><img src='Rectangle 32.svg' /></div>
-                                <span>1 пересадка</span>
-                                <span className='hover-text'></span>
+                                1 пересадка
                             </div>
                         </div>
                         <div>
                             <input name='transform' value='2' type='checkbox' onChange={changeCur} checked={chI} />
                             <div className='checkbox-layer'>
                                 <div className='checkbox'><img src='Rectangle 32.svg' /></div>
-                                <span>2 пересадки</span>
-                                <span className='hover-text'></span>
+                                2 пересадки
                             </div>
                         </div>
                         <div>
                             <input name='transform' value='3' type='checkbox' onChange={changeCur} checked={chI} />
                             <div className='checkbox-layer'>
                                 <div className='checkbox'><img src='Rectangle 32.svg' /></div>
-                                <span>3 пересадки</span>
-                                <span className='hover-text'></span>
+                                3 пересадки
                             </div>
                         </div>
                     </div>
