@@ -1,4 +1,14 @@
 /*change to % and em */
+@font-face {
+    font-family: 'Open Sans Semibold';
+    src: url(2212.ttf);
+}
+
+@font-face {
+    font-family: 'HelveticaNeueInterface_2';
+    src: url(_H_HelveticaNeueInterface_2.ttf);
+}
+
 html, body {
     background-color: #f3f7fa;
     margin: 0;
@@ -17,7 +27,7 @@ html, body {
     top: 161px;
     padding: 0 15px 0 15px;
     box-sizing: border-box;
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Open Sans Semibold';
 }
 
 #filters > p {
@@ -129,6 +139,7 @@ input:checked + .radio {
     color: #4a4a4a;
     font-weight: 400;
     line-height: 35px;
+    font-family: 'Open Sans';
 }
 
 .checkbox {
@@ -161,6 +172,7 @@ input:checked + .radio {
     color: #2196f3;
     font-weight: 600;
     float: right;
+    font-family: 'Open Sans Semibold';
 }
 
 #transfer input:hover + .checkbox-layer {
@@ -178,6 +190,7 @@ input:checked + .radio {
     left: 355px;
     top: 161px;
     width: 566px;
+    font-family: 'Open Sans Semibold';
 }
 
 .ticket {
@@ -198,6 +211,7 @@ input:checked + .radio {
 .price > div:first-child {
     display: flex;
     justify-content: center;
+    align-items: center;
     height: 50%;
 }
 
@@ -205,9 +219,30 @@ input:checked + .radio {
     width: 160px;
     height: 56px;
     border-radius: 5px;
-    box-shadow: 0px 1px 0px #d64d08;
+    box-shadow: 0 2px 1px rgba(0, 0, 0, 0.1), 0 1px 0 #d64d08;
     background-color: #ff6d00;
     margin: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+}
+
+.price p {
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: 600;
+    text-align: center;
+    margin: 0;
+}
+
+.price p > span::before  {
+    content: ' ';
+    letter-spacing: -3px;
+}
+
+.price p > span {
+    font-family: 'HelveticaNeueInterface_2';
+    font-weight: 400;
 }
 
 .route {

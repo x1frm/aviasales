@@ -18,7 +18,7 @@ class App extends React.Component {
             <div>
                 <Filters />
                 <div id='tickets-container'>
-                    <Ticket />
+                    <Ticket logo='Logo.png' price='21 032' />
                 </div>
             </div>
         );
@@ -100,8 +100,8 @@ const Ticket = (props) => {
     return (
         <div className='ticket'>
             <div className='price'>
-                <div><img src='Logo.svg' /></div>
-                <div></div>
+                <div><img src={props.logo} /></div>
+                <div><p>Купить<br />за {props.price}<span>₽</span></p></div>
             </div>
             <div className='route'></div>
         </div>
