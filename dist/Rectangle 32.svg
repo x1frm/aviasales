@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 9 7" width="9" height="7">
+	<style>
+		tspan { white-space:pre }
+		.shp0 { fill: none;stroke: #3e9ce8;stroke-linecap:round;stroke-linejoin:round;stroke-width: 2 } 
+	</style>
+	<g id="1024">
+		<g id="Filters">
+			<g id="Filter – Stop Quantity Copy">
+				<path id="Rectangle 32" class="shp0" d="M1.5,3.5l2,2l4,-4" />
+			</g>
+		</g>
+	</g>
+</svg>
