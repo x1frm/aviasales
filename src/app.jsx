@@ -3,9 +3,11 @@
 
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-
+import tickets from '../dist/tickets.json'
 var changeCur = 'stub';
 var chI = 'stub';
+
+const logoMap = { TK: 'tk.png'};
 
 class App extends React.Component {
     constructor(props) {
@@ -16,9 +18,10 @@ class App extends React.Component {
     render() {
         return(
             <div>
+                <img id='logo' src='logo.png'></img>
                 <Filters />
                 <div id='tickets-container'>
-                    <Ticket logo='Logo.png' price='21 032' />
+                    <Ticket logo={logoMap[tickets.tickets[0].carrier]} ticket={tickets.tickets[0]} />
                 </div>
             </div>
         );
@@ -97,13 +100,42 @@ class Filters extends React.Component {
 }
 
 const Ticket = (props) => {
+    const t = props.ticket;
+    const price = t.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+
+    const normalizeDate = (date) => {
+        date = new Date(date);
+        date = date.toLocaleDateString('ru-RU', {weekday: 'short', year: 'numeric', day: 'numeric', month: 'short'});
+        return date.slice(4).replace(/\./g, '') + ', ' + date[0].toUpperCase() + date[1];
+    }
+
+    const dateDep = normalizeDate(props.ticket.departure_date);
+    const dateArr = normalizeDate(props.ticket.arrival_date);
+
+    const stopsMap = [, '1 пересадка', '2 пересадки', '3 пересадки'];
+
     return (
         <div className='ticket'>
             <div className='price'>
                 <div><img src={props.logo} /></div>
-                <div><p>Купить<br />за {props.price}<span>₽</span></p></div>
+                <div><p>Купить<br />за {price}<span>₽</span></p></div>
             </div>
-            <div className='route'></div>
+            <div className='route'>
+                <div className='time dep'>{t.departure_time}</div>
+                <div className='time arr'>{t.arrival_time}</div>
+                <div className='place dep'>
+                    <p>{t.origin + ', ' + t.origin_name}</p>
+                    <p>{dateDep}</p></div>
+                <div className='place arr'>
+                    <p>{t.destination_name + ', ' + t.destination}</p>
+                    <p>{dateArr}</p>
+                </div>
+                <div className='arrow'>
+                    <p>{stopsMap[t.stops]}</p>
+                    <div></div>
+                    <img src='plane.png' />
+                </div>
+            </div>
         </div>
     );
 }

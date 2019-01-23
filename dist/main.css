@@ -14,6 +14,18 @@ html, body {
     margin: 0;
 }
 
+#root p, #root input {
+    margin: 0;
+    border: 0;
+} 
+
+#logo {
+    position: absolute;
+    top: 50px;
+    left: 482px;
+    width: 60px;
+}
+
 /* FILTERS */
 
 #filters {
@@ -58,8 +70,6 @@ html, body {
     height: 100%;
     position: absolute;
     z-index: 3;
-    margin: 0;
-    border: 0;
     cursor: pointer;
 }
 
@@ -124,8 +134,6 @@ input:checked + .radio {
     height: 100%;
     opacity: 0;
     z-index: 1;
-    margin: 0;
-    border: 0;
     cursor: pointer;
 }
 
@@ -227,12 +235,17 @@ input:checked + .radio {
     align-items: center; 
 }
 
+.price > div:nth-child(2):hover {
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.25), 0 1px 0 #f7661d;
+    background-color: #ff8124;
+    cursor: pointer;
+}
+
 .price p {
     color: #ffffff;
     font-size: 16px;
     font-weight: 600;
     text-align: center;
-    margin: 0;
 }
 
 .price p > span::before  {
@@ -248,4 +261,69 @@ input:checked + .radio {
 .route {
     width: 365px;
     height: 100%;
+    position: relative;
+}
+
+.time {
+    position: absolute;
+    top: 26px;
+    color: #4a4a4a;
+    font-family: "Open Sans";
+    font-size: 32px;
+    line-height: 26px;
+}
+
+.place {
+    position: absolute;
+    top: 62px;
+    width: 116px;
+    height: 35px;
+    color: #4a4a4a;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 18px;
+}
+
+.place > p:nth-child(2) {
+    color: #8b9497;
+    font-family: "Open Sans";
+}
+
+.dep {
+    left: 25px;
+}
+
+.arr {
+    right: 25px;
+    text-align: right;
+}
+
+.arrow {
+    position: absolute;
+    top: 25px;
+    width: 110px;
+    margin: 0 127.5px;
+    color: #8b9497;
+    font-size: 10px;
+    font-weight: 600;
+    line-height: 12.1px;
+    text-align: center;
+}
+
+.arrow > p {
+    height: 14px;
+}
+
+.arrow > div {
+    position: absolute;
+    top: 20px;
+    width: 96px;
+    height: 1px;
+    background-color: #d2d5d6;
+}
+
+.arrow > img {
+    position: absolute;
+    top: 14px;
+    right: 0;
 }
