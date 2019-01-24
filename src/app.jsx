@@ -27,16 +27,21 @@ class App extends React.Component {
     }
 
     filterTransfers(e) {
-        switch(e.target.value) {
+        const val = e.target.value;
+        switch(val) {
             case '0':
             case '1':
             case '2':
             case '3':
-                this.state.transfers[e.target.value] = !this.state.transfers[e.target.value];
-                this.setState({transfers: this.state.transfers});
+                var transfers = [...this.state.transfers];
+                transfers[val] = !transfers[val];
+                this.setState({transfers});
                 break;
             case 'all':
-
+                this.setState(prevState => ({
+                    transfers: prevState.transfers.fill(!prevState.transfers.every(el => el))
+                }));
+                break;
         }
     }
 
@@ -81,35 +86,35 @@ const Filters = (props) => {
                     <p>КОЛИЧЕСТВО ПЕРЕСАДОК</p>
                     <div id='transfer'>
                         <div>
-                            <input name='transform' value='all' type='checkbox' onChange={changeCur} checked={chI} />
+                            <input name='transfers' value='all' type='checkbox' onChange={props.transChange} checked={props.transfers.every(el => el)} />
                             <div className='checkbox-layer'>
                                 <div className='checkbox'><img src='Rectangle 32.svg' /></div>
                                 Все
                             </div>
                         </div>
                         <div>
-                            <input name='transform' value='0' type='checkbox' onChange={props.transChange} checked={props.transfers[0]} />
+                            <input name='transfers' value='0' type='checkbox' onChange={props.transChange} checked={props.transfers[0]} />
                             <div className='checkbox-layer'>
                                 <div className='checkbox'><img src='Rectangle 32.svg' /></div>
                                 Без пересадок
                             </div>
                         </div>
                         <div>
-                            <input name='transform' value='1' type='checkbox' onChange={props.transChange} checked={props.transfers[1]} />
+                            <input name='transfers' value='1' type='checkbox' onChange={props.transChange} checked={props.transfers[1]} />
                             <div className='checkbox-layer'>
                                 <div className='checkbox'><img src='Rectangle 32.svg' /></div>
                                 1 пересадка
                             </div>
                         </div>
                         <div>
-                            <input name='transform' value='2' type='checkbox' onChange={props.transChange} checked={props.transfers[2]} />
+                            <input name='transfers' value='2' type='checkbox' onChange={props.transChange} checked={props.transfers[2]} />
                             <div className='checkbox-layer'>
                                 <div className='checkbox'><img src='Rectangle 32.svg' /></div>
                                 2 пересадки
                             </div>
                         </div>
                         <div>
-                            <input name='transform' value='3' type='checkbox' onChange={props.transChange} checked={props.transfers[3]} />
+                            <input name='transfers' value='3' type='checkbox' onChange={props.transChange} checked={props.transfers[3]} />
                             <div className='checkbox-layer'>
                                 <div className='checkbox'><img src='Rectangle 32.svg' /></div>
                                 3 пересадки
