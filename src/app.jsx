@@ -5,7 +5,7 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import tickets from '../dist/tickets.json'
 
-const logoMap = { TK: 'tk.png'};
+const logoMap = { TK: 'tk.png', BA: 'ba.png', S7: 's7.png', SU: 'su.png' };
 const curMap = { rub: [1, '₽'], usd: [1/66, '$'], eur: [1/77, '€'] };
 
 class App extends React.Component {
@@ -47,12 +47,12 @@ class App extends React.Component {
     render() {
         const filteredTickets = tickets.tickets
             .filter(el => this.state.transfers[el.stops])
-            .map((el,idx) => <Ticket key={'ticket' + idx} ticket={el} logo={logoMap[el.carrier]} 
+            .map((el,idx) => <Ticket key={'ticket' + idx} ticket={el} logo={'img/' + logoMap[el.carrier]} 
                 curInfo={curMap[this.state.currency]} />);
 
         return(
             <div>
-                <img id='logo' src='logo.png'></img>
+                <img id='logo' src='img/logo.png'></img>
                 <Filters changeCur={this.changeCur} transfers={this.state.transfers} changeTransfers={this.filterTransfers} />
                 <div id='tickets-container'>
                     {filteredTickets}
@@ -88,35 +88,35 @@ const Filters = (props) => {
                         <div>
                             <input name='transfers' value='all' type='checkbox' onChange={props.changeTransfers} checked={props.transfers.every(el => el)} />
                             <div className='checkbox-layer'>
-                                <div className='checkbox'><img src='Rectangle 32.svg' /></div>
+                                <div className='checkbox'><img src='img/Rectangle 32.svg' /></div>
                                 Все
                             </div>
                         </div>
                         <div>
                             <input name='transfers' value='0' type='checkbox' onChange={props.changeTransfers} checked={props.transfers[0]} />
                             <div className='checkbox-layer'>
-                                <div className='checkbox'><img src='Rectangle 32.svg' /></div>
+                                <div className='checkbox'><img src='img/Rectangle 32.svg' /></div>
                                 Без пересадок
                             </div>
                         </div>
                         <div>
                             <input name='transfers' value='1' type='checkbox' onChange={props.changeTransfers} checked={props.transfers[1]} />
                             <div className='checkbox-layer'>
-                                <div className='checkbox'><img src='Rectangle 32.svg' /></div>
+                                <div className='checkbox'><img src='img/Rectangle 32.svg' /></div>
                                 1 пересадка
                             </div>
                         </div>
                         <div>
                             <input name='transfers' value='2' type='checkbox' onChange={props.changeTransfers} checked={props.transfers[2]} />
                             <div className='checkbox-layer'>
-                                <div className='checkbox'><img src='Rectangle 32.svg' /></div>
+                                <div className='checkbox'><img src='img/Rectangle 32.svg' /></div>
                                 2 пересадки
                             </div>
                         </div>
                         <div>
                             <input name='transfers' value='3' type='checkbox' onChange={props.changeTransfers} checked={props.transfers[3]} />
                             <div className='checkbox-layer'>
-                                <div className='checkbox'><img src='Rectangle 32.svg' /></div>
+                                <div className='checkbox'><img src='img/Rectangle 32.svg' /></div>
                                 3 пересадки
                             </div>
                         </div>
@@ -170,7 +170,7 @@ const Ticket = (props) => {
                 <div className='arrow'>
                     <p>{stopsMap[t.stops]}</p>
                     <div></div>
-                    <img src='plane.png' />
+                    <img src='img/plane.png' />
                 </div>
             </div>
         </div>
