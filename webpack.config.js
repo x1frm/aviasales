@@ -14,6 +14,8 @@ module.exports = {
     progress: true
   },
 
+  devtool: "source-map",
+
   module: {
     rules: [
       {

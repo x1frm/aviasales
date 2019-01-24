@@ -4,10 +4,9 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import tickets from '../dist/tickets.json'
-var changeCur = 'stub';
-var chI = 'stub';
 
 const logoMap = { TK: 'tk.png'};
+const curMap = { rub: [1, '₽'], usd: [1/66, '$'], eur: [1/77, '€'] };
 
 class App extends React.Component {
     constructor(props) {
@@ -17,13 +16,13 @@ class App extends React.Component {
             transfers: [true, true, false, false]
         }
 
+        this.changeCur = this.changeCur.bind(this);
         this.filterTransfers = this.filterTransfers.bind(this);
     }
 
     changeCur(e) {
-        this.setState({
-            currency: e.target.value
-        });
+        const val = e.target.value;
+        this.setState({ currency: val });
     }
 
     filterTransfers(e) {
@@ -48,12 +47,13 @@ class App extends React.Component {
     render() {
         const filteredTickets = tickets.tickets
             .filter(el => this.state.transfers[el.stops])
-            .map(el => <Ticket ticket={el} logo={logoMap[el.carrier]} />);
+            .map((el,idx) => <Ticket key={'ticket' + idx} ticket={el} logo={logoMap[el.carrier]} 
+                curInfo={curMap[this.state.currency]} />);
 
         return(
             <div>
                 <img id='logo' src='logo.png'></img>
-                <Filters cur={this.changeCur} transfers={this.state.transfers} transChange={this.filterTransfers} />
+                <Filters changeCur={this.changeCur} transfers={this.state.transfers} changeTransfers={this.filterTransfers} />
                 <div id='tickets-container'>
                     {filteredTickets}
                 </div>
@@ -71,50 +71,50 @@ const Filters = (props) => {
                     <p>ВАЛЮТА</p>
                     <div id='currency'>
                         <div>
-                            <input name='cur' value='rub' type='radio' onChange={changeCur} checked={chI} />
+                            <input name='cur' value='rub' type='radio' onChange={props.changeCur} defaultChecked />
                             <div className='radio'>RUB</div>
                         </div>
                         <div>
-                            <input name='cur' value='usd' type='radio' onChange={changeCur} checked={chI} />
+                            <input name='cur' value='usd' type='radio' onChange={props.changeCur}  />
                             <div className='radio'>USD</div>
                         </div>
                         <div>
-                            <input name='cur' value='eur' type='radio' onChange={changeCur} checked={chI} />
+                            <input name='cur' value='eur' type='radio' onChange={props.changeCur}  />
                             <div className='radio'>EUR</div>
                         </div>
                     </div>
                     <p>КОЛИЧЕСТВО ПЕРЕСАДОК</p>
                     <div id='transfer'>
                         <div>
-                            <input name='transfers' value='all' type='checkbox' onChange={props.transChange} checked={props.transfers.every(el => el)} />
+                            <input name='transfers' value='all' type='checkbox' onChange={props.changeTransfers} checked={props.transfers.every(el => el)} />
                             <div className='checkbox-layer'>
                                 <div className='checkbox'><img src='Rectangle 32.svg' /></div>
                                 Все
                             </div>
                         </div>
                         <div>
-                            <input name='transfers' value='0' type='checkbox' onChange={props.transChange} checked={props.transfers[0]} />
+                            <input name='transfers' value='0' type='checkbox' onChange={props.changeTransfers} checked={props.transfers[0]} />
                             <div className='checkbox-layer'>
                                 <div className='checkbox'><img src='Rectangle 32.svg' /></div>
                                 Без пересадок
                             </div>
                         </div>
                         <div>
-                            <input name='transfers' value='1' type='checkbox' onChange={props.transChange} checked={props.transfers[1]} />
+                            <input name='transfers' value='1' type='checkbox' onChange={props.changeTransfers} checked={props.transfers[1]} />
                             <div className='checkbox-layer'>
                                 <div className='checkbox'><img src='Rectangle 32.svg' /></div>
                                 1 пересадка
                             </div>
                         </div>
                         <div>
-                            <input name='transfers' value='2' type='checkbox' onChange={props.transChange} checked={props.transfers[2]} />
+                            <input name='transfers' value='2' type='checkbox' onChange={props.changeTransfers} checked={props.transfers[2]} />
                             <div className='checkbox-layer'>
                                 <div className='checkbox'><img src='Rectangle 32.svg' /></div>
                                 2 пересадки
                             </div>
                         </div>
                         <div>
-                            <input name='transfers' value='3' type='checkbox' onChange={props.transChange} checked={props.transfers[3]} />
+                            <input name='transfers' value='3' type='checkbox' onChange={props.changeTransfers} checked={props.transfers[3]} />
                             <div className='checkbox-layer'>
                                 <div className='checkbox'><img src='Rectangle 32.svg' /></div>
                                 3 пересадки
@@ -129,7 +129,8 @@ const Filters = (props) => {
 
 const Ticket = (props) => {
     const t = props.ticket;
-    const price = t.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+    var price = Math.round(t.price * props.curInfo[0]);
+    price = price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
 
     const normalizeDate = (date) => {
         date = new Date(date);
@@ -154,7 +155,7 @@ const Ticket = (props) => {
         <div className='ticket'>
             <div className='price'>
                 <div><img src={props.logo} /></div>
-                <div><p>Купить<br />за {price}<span>₽</span></p></div>
+                <div><p>Купить<br />за {price}<span>{props.curInfo[1]}</span></p></div>
             </div>
             <div className='route'>
                 <div className='time dep'>{timeDep}</div>
