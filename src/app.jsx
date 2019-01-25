@@ -17,6 +17,13 @@ class App extends React.Component {
         this.filterTransfers = this.filterTransfers.bind(this);
     }
 
+    componentDidMount() {
+        var filters = document.getElementById('filters-container');
+        document.getElementById('filters-shower').addEventListener('click', function() {
+            filters.classList.toggle('showed');
+        });
+    }
+
     changeCur(e) {
         const val = e.target.value;
         this.setState({ currency: val });
@@ -51,7 +58,6 @@ class App extends React.Component {
 
         return (
             <div>
-                <img id='logo' src='img/logo.png'></img>
                 <Filters changeCur={this.changeCur} transfers={this.state.transfers} changeTransfers={this.filterTransfers} />
                 <div id='tickets-container'>
                     {filteredTickets}
@@ -64,7 +70,7 @@ class App extends React.Component {
 
 
 const Filters = (props) => (
-    <div>
+    <div id='filters-container'>
         <div id='filters'>
             <p>ВАЛЮТА</p>
             <div id='currency'>
@@ -133,7 +139,7 @@ const Ticket = (props) => {
         date = date.split('.').map(el => Number(el));
         date = new Date(date[2] + 2000, date[1] - 1, date[0]);
         date = date.toLocaleDateString('ru-RU', {weekday: 'short', year: 'numeric', day: 'numeric', month: 'short'});
-        return date.slice(4).replace(/\./g, '') + ', ' + date[0].toUpperCase() + date[1];
+        return date.slice(4).replace(/\.| г/g, '') + ', ' + date[0].toUpperCase() + date[1];
     }
 
     const dateDep = normalizeDate(t.departure_date);

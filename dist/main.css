@@ -26,7 +26,30 @@ html, body {
     width: 60px;
 }
 
+#filters-shower {
+    display: none;
+    position: fixed;
+    left: 20px;
+    bottom: 20px;
+    background-color: #2196f3;
+    width: 60px;
+    height: 60px;
+    border-radius: 100%;
+    z-index: 10;
+}
+
+#filters-shower > img {
+    margin: 18px;
+}
+
 /* FILTERS */
+
+#filters-container {
+    height: 100%;
+    position: fixed;
+    left: 81px;
+    width: 262px;
+}
 
 #filters {
     width: 232px;
@@ -35,7 +58,7 @@ html, body {
     box-shadow: 0px 1px 4px rgba(91,137,164,0.25);
     background-color: #ffffff;
     position: absolute;
-    left: 103px;
+    left: 20px;
     top: 161px;
     padding: 0 15px 0 15px;
     box-sizing: border-box;
@@ -196,7 +219,7 @@ input:checked + .radio {
 }
 
 .ticket {
-    width: 566px;
+    width: 100%;
     height: 161px;
     margin-bottom: 20px;
     border-radius: 5px;
@@ -295,7 +318,7 @@ input:checked + .radio {
     position: absolute;
     top: 25px;
     width: 110px;
-    margin: 0 127.5px;
+    margin: 0 calc(50% - 55px);
     color: #8b9497;
     line-height: 12.1px;
     text-align: center;
