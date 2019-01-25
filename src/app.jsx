@@ -3,13 +3,13 @@ import ReactDOM from 'react-dom';
 import tickets from '../dist/tickets.json'
 
 const logoMap = { TK: 'tk.png', BA: 'ba.png', S7: 's7.png', SU: 'su.png' };
-const curMap = { rub: [1, '₽'], usd: [1/66, '$'], eur: [1/77, '€'] };
+const curMap = { RUB: '₽', USD: '$', EUR: '€' };
 
 class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            currency: 'rub',
+            currency: [1, '₽'],
             transfers: [true, true, false, false]
         }
 
@@ -25,8 +25,21 @@ class App extends React.Component {
     }
 
     changeCur(e) {
-        const val = e.target.value;
-        this.setState({ currency: val });
+        const val = e.target.value.toUpperCase();
+
+        if (val === 'RUB') {
+            this.setState({currency: [1, '₽']});
+            return;
+        }
+
+        const _this = this;
+        var request = new XMLHttpRequest();
+        request.open('GET', `https://api.exchangeratesapi.io/latest?base=RUB&symbols=${val}`);
+        request.responseType = 'json';
+        request.onload = function() {
+            _this.setState({ currency: [request.response.rates[val], _this.props.curMap[val]] });        
+        };
+        request.send();        
     }
 
     filterTransfers(e) {
@@ -54,7 +67,7 @@ class App extends React.Component {
             .sort((a,b) => a.price - b.price)
             .map((el,idx) => 
                 <Ticket key={'ticket' + idx} ticket={el} logo={'img/' + this.props.logoMap[el.carrier]} 
-                curInfo={this.props.curMap[this.state.currency]} />);
+                curInfo={this.state.currency} />);
 
         return (
             <div>
