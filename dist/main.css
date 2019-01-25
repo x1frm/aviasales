@@ -7,11 +7,14 @@
 html, body {
     background-color: #f3f7fa;
     margin: 0;
+    height: 100%;
 }
 
 #root {
     font-family: 'Open Sans', sans-serif;
     font-weight: 600;
+    height: 100%;
+
 }
 
 #root p, #root input {

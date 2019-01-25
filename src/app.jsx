@@ -35,6 +35,14 @@ class App extends React.Component {
         document.getElementById('filters-shower').addEventListener('click', function() {
             filters.classList.toggle('showed');
         });
+
+        var touchReg = new ZingTouch.Region(document.getElementById('root'));
+        touchReg.bind(filters, 'swipe', function(e) {
+            console.log(e);
+            if (e.detail.data[0].currentDirection < 200 && e.detail.data[0].currentDirection > 160) {
+                filters.classList.toggle('showed');
+            }
+        })
     }
 
     changeCur(e) {
