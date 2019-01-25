@@ -56,13 +56,15 @@ class App extends React.Component {
     }
 
     filterTransfers(e) {
-        const val = e.target.value;
+        const isOnly = e.target.nodeName === 'SPAN';
+        const val = isOnly ? e.target.getAttribute('data-value') : e.target.value;
         switch(val) {
             case '0':
             case '1':
             case '2':
             case '3':
                 var transfers = [...this.state.transfers];
+                isOnly ? transfers.fill(false) : true;
                 transfers[val] = !transfers[val];
                 this.setState({transfers});
                 break;
@@ -127,6 +129,7 @@ const Filters = (props) => (
                     <div className='checkbox-layer'>
                         <div className='checkbox'><img src='img/Rectangle 32.svg' /></div>
                         Без пересадок
+                        <span data-value='0' onClick={props.changeTransfers}></span>
                     </div>
                 </div>
                 <div>
@@ -134,6 +137,7 @@ const Filters = (props) => (
                     <div className='checkbox-layer'>
                         <div className='checkbox'><img src='img/Rectangle 32.svg' /></div>
                         1 пересадка
+                        <span data-value='1' onClick={props.changeTransfers}></span>
                     </div>
                 </div>
                 <div>
@@ -141,6 +145,7 @@ const Filters = (props) => (
                     <div className='checkbox-layer'>
                         <div className='checkbox'><img src='img/Rectangle 32.svg' /></div>
                         2 пересадки
+                        <span data-value='2' onClick={props.changeTransfers}></span>
                     </div>
                 </div>
                 <div>
@@ -148,6 +153,7 @@ const Filters = (props) => (
                     <div className='checkbox-layer'>
                         <div className='checkbox'><img src='img/Rectangle 32.svg' /></div>
                         3 пересадки
+                        <span data-value='3' onClick={props.changeTransfers}></span>
                     </div>
                 </div>
             </div>
