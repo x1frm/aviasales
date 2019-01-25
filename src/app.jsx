@@ -1,6 +1,3 @@
-//try to make 2 separate components
-//install globally modules?
-
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import tickets from '../dist/tickets.json'
@@ -45,12 +42,14 @@ class App extends React.Component {
     }
 
     render() {
-        const filteredTickets = tickets.tickets
+        const filteredTickets = this.props.tickets
             .filter(el => this.state.transfers[el.stops])
-            .map((el,idx) => <Ticket key={'ticket' + idx} ticket={el} logo={'img/' + logoMap[el.carrier]} 
-                curInfo={curMap[this.state.currency]} />);
+            .sort((a,b) => a.price - b.price)
+            .map((el,idx) => 
+                <Ticket key={'ticket' + idx} ticket={el} logo={'img/' + this.props.logoMap[el.carrier]} 
+                curInfo={this.props.curMap[this.state.currency]} />);
 
-        return(
+        return (
             <div>
                 <img id='logo' src='img/logo.png'></img>
                 <Filters changeCur={this.changeCur} transfers={this.state.transfers} changeTransfers={this.filterTransfers} />
@@ -64,68 +63,66 @@ class App extends React.Component {
 }
 
 
-const Filters = (props) => {
-        return (
-            <div>
-                <div id='filters'>
-                    <p>ВАЛЮТА</p>
-                    <div id='currency'>
-                        <div>
-                            <input name='cur' value='rub' type='radio' onChange={props.changeCur} defaultChecked />
-                            <div className='radio'>RUB</div>
-                        </div>
-                        <div>
-                            <input name='cur' value='usd' type='radio' onChange={props.changeCur}  />
-                            <div className='radio'>USD</div>
-                        </div>
-                        <div>
-                            <input name='cur' value='eur' type='radio' onChange={props.changeCur}  />
-                            <div className='radio'>EUR</div>
-                        </div>
+const Filters = (props) => (
+    <div>
+        <div id='filters'>
+            <p>ВАЛЮТА</p>
+            <div id='currency'>
+                <div>
+                    <input name='cur' value='rub' type='radio' onChange={props.changeCur} defaultChecked />
+                    <div className='radio'>RUB</div>
+                </div>
+                <div>
+                    <input name='cur' value='usd' type='radio' onChange={props.changeCur}  />
+                    <div className='radio'>USD</div>
+                </div>
+                <div>
+                    <input name='cur' value='eur' type='radio' onChange={props.changeCur}  />
+                    <div className='radio'>EUR</div>
+                </div>
+            </div>
+            <p>КОЛИЧЕСТВО ПЕРЕСАДОК</p>
+            <div id='transfer'>
+                <div>
+                    <input name='transfers' value='all' type='checkbox' onChange={props.changeTransfers} checked={props.transfers.every(el => el)} />
+                    <div className='checkbox-layer'>
+                        <div className='checkbox'><img src='img/Rectangle 32.svg' /></div>
+                        Все
                     </div>
-                    <p>КОЛИЧЕСТВО ПЕРЕСАДОК</p>
-                    <div id='transfer'>
-                        <div>
-                            <input name='transfers' value='all' type='checkbox' onChange={props.changeTransfers} checked={props.transfers.every(el => el)} />
-                            <div className='checkbox-layer'>
-                                <div className='checkbox'><img src='img/Rectangle 32.svg' /></div>
-                                Все
-                            </div>
-                        </div>
-                        <div>
-                            <input name='transfers' value='0' type='checkbox' onChange={props.changeTransfers} checked={props.transfers[0]} />
-                            <div className='checkbox-layer'>
-                                <div className='checkbox'><img src='img/Rectangle 32.svg' /></div>
-                                Без пересадок
-                            </div>
-                        </div>
-                        <div>
-                            <input name='transfers' value='1' type='checkbox' onChange={props.changeTransfers} checked={props.transfers[1]} />
-                            <div className='checkbox-layer'>
-                                <div className='checkbox'><img src='img/Rectangle 32.svg' /></div>
-                                1 пересадка
-                            </div>
-                        </div>
-                        <div>
-                            <input name='transfers' value='2' type='checkbox' onChange={props.changeTransfers} checked={props.transfers[2]} />
-                            <div className='checkbox-layer'>
-                                <div className='checkbox'><img src='img/Rectangle 32.svg' /></div>
-                                2 пересадки
-                            </div>
-                        </div>
-                        <div>
-                            <input name='transfers' value='3' type='checkbox' onChange={props.changeTransfers} checked={props.transfers[3]} />
-                            <div className='checkbox-layer'>
-                                <div className='checkbox'><img src='img/Rectangle 32.svg' /></div>
-                                3 пересадки
-                            </div>
-                        </div>
+                </div>
+                <div>
+                    <input name='transfers' value='0' type='checkbox' onChange={props.changeTransfers} checked={props.transfers[0]} />
+                    <div className='checkbox-layer'>
+                        <div className='checkbox'><img src='img/Rectangle 32.svg' /></div>
+                        Без пересадок
+                    </div>
+                </div>
+                <div>
+                    <input name='transfers' value='1' type='checkbox' onChange={props.changeTransfers} checked={props.transfers[1]} />
+                    <div className='checkbox-layer'>
+                        <div className='checkbox'><img src='img/Rectangle 32.svg' /></div>
+                        1 пересадка
+                    </div>
+                </div>
+                <div>
+                    <input name='transfers' value='2' type='checkbox' onChange={props.changeTransfers} checked={props.transfers[2]} />
+                    <div className='checkbox-layer'>
+                        <div className='checkbox'><img src='img/Rectangle 32.svg' /></div>
+                        2 пересадки
+                    </div>
+                </div>
+                <div>
+                    <input name='transfers' value='3' type='checkbox' onChange={props.changeTransfers} checked={props.transfers[3]} />
+                    <div className='checkbox-layer'>
+                        <div className='checkbox'><img src='img/Rectangle 32.svg' /></div>
+                        3 пересадки
                     </div>
                 </div>
             </div>
-        );
-    
-}
+        </div>
+    </div>
+);
+
 
 const Ticket = (props) => {
     const t = props.ticket;
@@ -133,7 +130,8 @@ const Ticket = (props) => {
     price = price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
 
     const normalizeDate = (date) => {
-        date = new Date(date);
+        date = date.split('.').map(el => Number(el));
+        date = new Date(date[2] + 2000, date[1] - 1, date[0]);
         date = date.toLocaleDateString('ru-RU', {weekday: 'short', year: 'numeric', day: 'numeric', month: 'short'});
         return date.slice(4).replace(/\./g, '') + ', ' + date[0].toUpperCase() + date[1];
     }
@@ -142,8 +140,7 @@ const Ticket = (props) => {
     const dateArr = normalizeDate(t.arrival_date);
 
     const normalizeTime = (time) => {
-        time = new Date('01.01.2019 ' + time);
-        return time.toLocaleTimeString('en-GB', {hour: '2-digit', minute: '2-digit'});
+        return time.length === 4 ? '0' + time : time
     }
 
     const timeDep = normalizeTime(t.departure_time);
@@ -177,4 +174,5 @@ const Ticket = (props) => {
     );
 }
 
-ReactDOM.render(<App />, document.querySelector('#root'));
+ReactDOM.render(<App logoMap={logoMap} curMap={curMap} tickets={tickets.tickets}/>, 
+    document.querySelector('#root'));
