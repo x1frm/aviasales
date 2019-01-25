@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import tickets from '../dist/tickets.json'
 
 const logoMap = { TK: 'tk.png', BA: 'ba.png', S7: 's7.png', SU: 'su.png' };
 const curMap = { RUB: '₽', USD: '$', EUR: '€' };
@@ -13,8 +12,22 @@ class App extends React.Component {
             transfers: [true, true, false, false]
         }
 
+        this.tickets = [];
+
         this.changeCur = this.changeCur.bind(this);
         this.filterTransfers = this.filterTransfers.bind(this);
+    }
+
+    componentWillMount() {
+        const _this = this;
+        var request = new XMLHttpRequest();
+        request.open('GET', 'tickets.json');
+        request.responseType = 'json';
+        request.onload = function() {
+            _this.tickets = request.response.tickets;
+            _this.forceUpdate();
+        };
+        request.send();
     }
 
     componentDidMount() {
@@ -62,7 +75,7 @@ class App extends React.Component {
     }
 
     render() {
-        const filteredTickets = this.props.tickets
+        const filteredTickets = this.tickets
             .filter(el => this.state.transfers[el.stops])
             .sort((a,b) => a.price - b.price)
             .map((el,idx) => 
@@ -193,5 +206,5 @@ const Ticket = (props) => {
     );
 }
 
-ReactDOM.render(<App logoMap={logoMap} curMap={curMap} tickets={tickets.tickets}/>, 
+ReactDOM.render(<App logoMap={logoMap} curMap={curMap} />, 
     document.querySelector('#root'));
