@@ -1,8 +1,17 @@
 /*change to % and em */
+@font-face {
+    font-family: 'HelveticaNeueInterface_2';
+    src: url(_H_HelveticaNeueInterface_2.ttf)
+}
 
 html, body {
     background-color: #f3f7fa;
     margin: 0;
+}
+
+#root {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 600;
 }
 
 #root p, #root input {
@@ -34,8 +43,6 @@ html, body {
 
 #filters > p {
     font-size: 12px;
-    font-family: 'Open Sans', sans-serif;
-    font-weight: 600;
     letter-spacing: 0.5px;
     line-height: 19px;
     color: #4a4a4a;
@@ -72,8 +79,6 @@ html, body {
     height: calc(100% - 2px);
 
     font-size: 12px;
-    font-family: 'Open Sans', sans-serif;
-    font-weight: 600;
     letter-spacing: 0px;
     line-height: 22px;
     color: #2196f3;
@@ -136,10 +141,10 @@ input:checked + .radio {
     box-sizing: border-box;
 
     font-size: 13px;
-    color: #4a4a4a;
     font-weight: 400;
-    line-height: 35px;
     font-family: 'Open Sans';
+    color: #4a4a4a;
+    line-height: 35px;
 }
 
 .checkbox {
@@ -167,8 +172,6 @@ input:checked + .radio {
 #transfer > div:nth-child(n+2) > input:hover + .checkbox-layer::after {
     content: 'ТОЛЬКО';
     font-size: 11px;
-    font-family: 'Open Sans', sans-serif;
-    font-weight: 600;
     line-height: 35px;
     letter-spacing: 0.5px;
     color: #2196f3;
@@ -236,8 +239,6 @@ input:checked + .radio {
 .price p {
     color: #ffffff;
     font-size: 16px;
-    font-family: 'Open Sans', sans-serif;
-    font-weight: 600;
     text-align: center;
 }
 
@@ -261,7 +262,7 @@ input:checked + .radio {
     position: absolute;
     top: 26px;
     color: #4a4a4a;
-    font-family: "Open Sans";
+    font-weight: 400;
     font-size: 32px;
     line-height: 26px;
 }
@@ -273,14 +274,12 @@ input:checked + .radio {
     height: 35px;
     color: #4a4a4a;
     font-size: 12px;
-    font-family: 'Open Sans', sans-serif;
-    font-weight: 600;
     line-height: 18px;
 }
 
 .place > p:nth-child(2) {
     color: #8b9497;
-    font-family: "Open Sans";
+    font-weight: 400;
 }
 
 .dep {
@@ -304,8 +303,6 @@ input:checked + .radio {
 
 .arrow > p {
     height: 14px;
-    font-family: 'Open Sans', sans-serif;
-    font-weight: 600;
     font-size: 10px;
 }
 
