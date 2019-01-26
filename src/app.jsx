@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
+import ZingTouch from 'zingtouch';
 
 const logoMap = { TK: 'tk.png', BA: 'ba.png', S7: 's7.png', SU: 'su.png' };
 const curMap = { RUB: '₽', USD: '$', EUR: '€' };
