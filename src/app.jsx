@@ -37,7 +37,7 @@ class App extends React.Component {
             filters.classList.toggle('showed');
         });
 
-        var touchReg = new ZingTouch.Region(document.getElementById('root'));
+        var touchReg = new ZingTouch.Region(document.getElementById('root'), false, false);
         touchReg.bind(filters, 'swipe', function(e) {
             var direction = e.detail.data[0].currentDirection;
             if (direction < 210 && direction > 150) {
