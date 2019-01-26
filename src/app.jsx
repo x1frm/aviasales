@@ -38,11 +38,17 @@ class App extends React.Component {
 
         var touchReg = new ZingTouch.Region(document.getElementById('root'));
         touchReg.bind(filters, 'swipe', function(e) {
-            console.log(e);
-            if (e.detail.data[0].currentDirection < 200 && e.detail.data[0].currentDirection > 160) {
-                filters.classList.toggle('showed');
+            var direction = e.detail.data[0].currentDirection;
+            if (direction < 210 && direction > 150) {
+                filters.classList.remove('showed');
             }
-        })
+        });
+        touchReg.bind(document.getElementById('touch-region'), 'swipe', function(e) {
+            var direction = e.detail.data[0].currentDirection;
+            if (direction > 330 || direction < 30) {
+                filters.classList.add('showed');
+            }
+        });
     }
 
     changeCur(e) {
@@ -94,7 +100,9 @@ class App extends React.Component {
 
         return (
             <div>
-                <Filters changeCur={this.changeCur} transfers={this.state.transfers} changeTransfers={this.filterTransfers} />
+                <div id='touch-region'>
+                    <Filters changeCur={this.changeCur} transfers={this.state.transfers} changeTransfers={this.filterTransfers} />
+                </div>
                 <div id='tickets-container'>
                     {filteredTickets}
                 </div>

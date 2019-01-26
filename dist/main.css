@@ -1,4 +1,5 @@
-/*change to % and em */
+/*change to % and em 
+absolute position to margin */
 @font-face {
     font-family: 'HelveticaNeueInterface_2';
     src: url(_H_HelveticaNeueInterface_2.ttf)
@@ -14,7 +15,6 @@ html, body {
     font-family: 'Open Sans', sans-serif;
     font-weight: 600;
     height: 100%;
-
 }
 
 #root p, #root input {
@@ -27,6 +27,15 @@ html, body {
     top: 50px;
     left: 482px;
     width: 60px;
+}
+
+#root > div {
+    height: 100%;
+}
+
+#touch-region {
+    width: 100px;
+    height: 100%;
 }
 
 #filters-shower {
