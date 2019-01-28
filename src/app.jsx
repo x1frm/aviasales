@@ -9,7 +9,11 @@ class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            currency: [1, '₽'],
+            currency: {
+                code: 'RUB',
+                rate: 1,
+                symbol: '₽'
+            },
             transfers: [true, true, false, false]
         }
 
@@ -53,10 +57,16 @@ class App extends React.Component {
     }
 
     changeCur(e) {
-        const val = e.target.value.toUpperCase();
+        const val = e.target.value;
 
         if (val === 'RUB') {
-            this.setState({currency: [1, '₽']});
+            this.setState({
+                currency: {
+                    code: 'RUB',
+                    rate: 1,
+                    symbol: '₽'
+                }
+            });
             return;
         }
 
@@ -65,7 +75,13 @@ class App extends React.Component {
         request.open('GET', `https://api.exchangeratesapi.io/latest?base=RUB&symbols=${val}`);
         request.responseType = 'json';
         request.onload = function() {
-            _this.setState({ currency: [request.response.rates[val], _this.props.curMap[val]] });        
+            _this.setState({ 
+                currency: {
+                    code: val,
+                    rate: request.response.rates[val],
+                    symbol: _this.props.curMap[val]
+                }
+            });        
         };
         request.send();        
     }
@@ -102,7 +118,8 @@ class App extends React.Component {
         return (
             <div>
                 <div id='touch-region'>
-                    <Filters changeCur={this.changeCur} transfers={this.state.transfers} changeTransfers={this.filterTransfers} />
+                    <Filters currency={this.state.currency.code} changeCur={this.changeCur} 
+                        transfers={this.state.transfers} changeTransfers={this.filterTransfers} />
                 </div>
                 <div id='tickets-container'>
                     {filteredTickets}
@@ -120,15 +137,15 @@ const Filters = (props) => (
             <p>ВАЛЮТА</p>
             <div id='currency'>
                 <div>
-                    <input name='cur' value='rub' type='radio' onChange={props.changeCur} defaultChecked />
+                    <input name='cur' value='RUB' type='radio' onChange={props.changeCur} checked={props.currency === 'RUB'} />
                     <div className='radio'>RUB</div>
                 </div>
                 <div>
-                    <input name='cur' value='usd' type='radio' onChange={props.changeCur}  />
+                    <input name='cur' value='USD' type='radio' onChange={props.changeCur} checked={props.currency === 'USD'} />
                     <div className='radio'>USD</div>
                 </div>
                 <div>
-                    <input name='cur' value='eur' type='radio' onChange={props.changeCur}  />
+                    <input name='cur' value='EUR' type='radio' onChange={props.changeCur} checked={props.currency === 'EUR'} />
                     <div className='radio'>EUR</div>
                 </div>
             </div>
@@ -181,7 +198,7 @@ const Filters = (props) => (
 
 const Ticket = (props) => {
     const t = props.ticket;
-    var price = Math.round(t.price * props.curInfo[0]);
+    var price = Math.round(t.price * props.curInfo.rate);
     price = price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
 
     const normalizeDate = (date) => {
@@ -207,7 +224,7 @@ const Ticket = (props) => {
         <div className='ticket'>
             <div className='price'>
                 <div><img src={props.logo} /></div>
-                <div><p>Купить<br />за {price}<span>{props.curInfo[1]}</span></p></div>
+                <div><p>Купить<br />за {price}<span>{props.curInfo.symbol}</span></p></div>
             </div>
             <div className='route'>
                 <div className='time dep'>{timeDep}</div>
