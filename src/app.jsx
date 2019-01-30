@@ -3,21 +3,32 @@ import ReactDOM from 'react-dom';
 import ZingTouch from 'zingtouch';
 
 const logoMap = { TK: 'tk.png', BA: 'ba.png', S7: 's7.png', SU: 'su.png' };
-const curMap = { RUB: '₽', USD: '$', EUR: '€' };
+const curMap = { 
+    RUB: {
+        rate: 1,
+        symbol: '₽'
+    },
+    USD: {
+        rate: 1/66, 
+        symbol: '$'
+    }, 
+    EUR: {
+        rate: 1/77, 
+        symbol: '€'
+    }
+};
 
 class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            currency: {
-                code: 'RUB',
-                rate: 1,
-                symbol: '₽'
-            },
+            currency: 'RUB',
             transfers: [true, true, false, false]
         }
 
         this.tickets = [];
+
+        this.curInfo = { rate: 1 }
 
         this.changeCur = this.changeCur.bind(this);
         this.filterTransfers = this.filterTransfers.bind(this);
@@ -60,30 +71,32 @@ class App extends React.Component {
         const val = e.target.value;
 
         if (val === 'RUB') {
-            this.setState({
-                currency: {
-                    code: 'RUB',
-                    rate: 1,
-                    symbol: '₽'
-                }
-            });
+            this.curInfo.rate = 1;
+            this.setState({ currency: 'RUB' });
             return;
         }
 
         const _this = this;
+
         var request = new XMLHttpRequest();
         request.open('GET', `https://api.exchangeratesapi.io/latest?base=RUB&symbols=${val}`);
         request.responseType = 'json';
+        request.timeout = 3000;
+    
         request.onload = function() {
-            _this.setState({ 
-                currency: {
-                    code: val,
-                    rate: request.response.rates[val],
-                    symbol: _this.props.curMap[val]
-                }
-            });        
+            _this.curInfo.rate = request.response.rates[val];
+            _this.setState({ currency: val });
+            console.log('loaded');  
         };
-        request.send();        
+
+        request.ontimeout = function() {
+            _this.curInfo.rate = _this.props.curMap[val].rate;
+            _this.setState({ currency: val });
+            console.log(`XRates weren't received. Defaults are used`);
+        }
+
+        request.send();
+        console.log('loading xRates...');
     }
 
     filterTransfers(e) {
@@ -108,17 +121,19 @@ class App extends React.Component {
     }
 
     render() {
+        this.curInfo.symbol = this.props.curMap[this.state.currency].symbol;
+
         const filteredTickets = this.tickets
             .filter(el => this.state.transfers[el.stops])
             .sort((a,b) => a.price - b.price)
             .map((el,idx) => 
                 <Ticket key={'ticket' + idx} ticket={el} logo={'img/' + this.props.logoMap[el.carrier]} 
-                curInfo={this.state.currency} />);
+                curInfo={this.curInfo} />);
 
         return (
             <div>
                 <div id='touch-region'>
-                    <Filters currency={this.state.currency.code} changeCur={this.changeCur} 
+                    <Filters currency={this.state.currency} changeCur={this.changeCur} 
                         transfers={this.state.transfers} changeTransfers={this.filterTransfers} />
                 </div>
                 <div id='tickets-container'>
